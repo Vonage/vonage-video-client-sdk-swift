@@ -51,10 +51,6 @@ For samples using Swift, visit our [Swift sample app
 repo](https://github.com/opentok/opentok-ios-sdk-samples-swift)
 on GitHub.
 
-For samples using Objective-C, visit our [Objective-C sample app
-repo](https://github.com/opentok/opentok-ios-sdk-samples)
-on GitHub.
-
 Interoperability
 ----------------
 
