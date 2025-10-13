@@ -6,10 +6,10 @@ you build for iPad, iPhone, and iPod touch devices.
 All Vonage applications are composed of two parts:
 
 * The client-side, which uses the [Vonage client
-  SDKs](https://tokbox.com/developer/sdks/client/) and runs in a user's
+  SDKs](https://developer.vonage.com/en/video/client-sdks/ios/overview) and runs in a user's
   browser or mobile app
 * The server-side, which uses the [Vonage server
-  SDKs](https://tokbox.com/developer/sdks/server/) and runs on your server
+  SDKs](https://developer.vonage.com/en/video/server-sdks/overview) and runs on your server
   to pass authentication information to the client.
 
 The client SDK for building iOS apps is the Vonage Client SDK Video iOS, which provides
