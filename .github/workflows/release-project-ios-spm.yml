@@ -1,0 +1,48 @@
+# Release request project ios spm workflow.
+
+name: release-project-ios-spm
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_candidate:
+        description: 'Release candidate'
+        required: true
+      version:
+        description: 'Version'
+        required: true
+        default: '0.0.0'
+
+jobs:
+  run:
+    runs-on: [self-hosted, project-ios-xcframework]
+    steps:
+    - name: Release workflow parameters
+      run: |
+        echo "Release request project ios spm workflow"
+        echo "Release candidate is ${{ github.event.inputs.release_candidate }}"
+        echo "Version is ${{ github.event.inputs.version }}"
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Create Tag
+      uses: actions/github-script@v7
+      env:
+          TAG: ${{ github.event.inputs.version }}
+      with:
+        script: |
+         github.rest.git.createRef({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          ref: 'refs/tags/v${{ needs.version.outputs.version }}',
+          sha: context.sha
+         }).catch(err => {
+          if (err.status !== 422) throw err;
+          github.rest.git.updateRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'tags/v${{ needs.version.outputs.version }}',
+            sha: context.sha
+          });
+         })
