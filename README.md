@@ -20,11 +20,11 @@ most of the core functionality for your app, including:
 * Subscribing to streams in a session
 
 Client SDKs are also available for
-[Android](https://tokbox.com/developer/sdks/android/) and
-[web](https://tokbox.com/developer/sdks/js/). All Vonage client SDKs can interact with one another.
+[Android](https://developer.vonage.com/en/video/client-sdks/android/overview) and
+[web](https://developer.vonage.com/en/video/client-sdks/web/overview). All Vonage client SDKs can interact with one another.
 
 You can learn more about the basics of Vonage clients, servers, sessions, and
-more on the [Vonage Basics](https://tokbox.com/developer/guides/basics/) page.
+more on the [Vonage Overview](https://developer.vonage.com/en/video/overview) page.
 
 Swift Package Manager
 ---------------------
