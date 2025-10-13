@@ -36,13 +36,13 @@ Learning to build with the Vonage Client SDK Video iOS
 ------------------------------------------------------
 
 The best way to learn how to use the Vonage Client SDK Video iOS is to follow the 
-[Basic Video Chat tutorial](https://tokbox.com/developer/tutorials/ios/).
+[Basic Video Chat tutorial](https://developer.vonage.com/en/tutorials/basic-video-chat/introduction/swift).
 
 Once you understand the basics of building with the Vonage Client SDK Video iOS, you
 can get more detailed information and learn how to customize your application
-with the Vonage [developer guides](https://tokbox.com/developer/guides).
+with the Vonage [developer guides](https://developer.vonage.com/en/video/guides).
 To investigate specific API classes and methods, see the [Vonage Client SDK Video API
-reference](https://tokbox.com/developer/sdks/ios/reference/).
+reference](https://vonage.github.io/video-docs/video-ios-reference/latest/).
 
 Code samples
 ------------
@@ -102,17 +102,13 @@ https://code.google.com/p/webrtc/issues/detail?id=3992) and Google Maps
 (versions earlier than 1.9.0). To fix this issue, download a version of the
 other library that was compiled using XCode 6.0.0 or later.
 
-In order to access the camera and microphone, iOS 10 requires you to set values
-for the `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` keys in
-the Info.plist file. These define strings that appear in the app installer to
-inform the user why your app uses the camera and microphone. For more
-information see [the Apple documentation on Cocoa
-keys](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html).
+To access the camera and microphone, set `NSCameraUsageDescription` and `NSMicrophoneUsageDescription` under Info.plist Values in Xcode’s Build Settings. These are required by iOS to display permission prompts. For more
+information see [the Apple documentation on Info.plist](https://developer.apple.com/documentation/bundleresources/information-property-list).
 
 See the [release notes](release-notes.md) for information on the latest version
 of the SDK and for a list of known issues.
 
-See [this document](http://tokbox.com/developer/sdks/ios/background-state.html)
+See [this document](https://developer.vonage.com/en/video/client-sdks/ios/background-state)
 for information on using the SDK in apps running in the background mode.
 
 System requirements
@@ -140,13 +136,13 @@ subscribing to as many as 20 simultaneous low-resolution (200x200-pixel,
 session using the Vonage Client SDK Video iOS, create a session that uses the Vonage
 Media Router (a session with the media mode set to routed). See
 [The Vonage Media Router and media
-modes](http://tokbox.com/developer/guides/create-session/#media-mode).
+modes](https://developer.vonage.com/en/video/guides/create-session#media-mode).
 
 Documentation
 -------------
 
-Reference documentation is included in the doc subdirectory of the SDK and at
-<http://www.tokbox.com/developer/sdks/ios/reference/index.html>.
+Reference documentation is included at
+<https://vonage.github.io/video-docs/video-ios-reference/latest/>.
 
 More information
 -----------------
