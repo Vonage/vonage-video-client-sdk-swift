@@ -48,7 +48,7 @@ Code samples
 ------------
 
 For samples using Swift, visit our [Swift sample app
-repo](https://github.com/opentok/opentok-ios-sdk-samples-swift)
+repo](https://github.com/Vonage/vonage-video-ios-sdk-samples)
 on GitHub.
 
 Interoperability
