@@ -19,8 +19,8 @@ let package = Package(
     ],
     targets: [
         .binaryTarget(name: "OpenTok",
-                url: "https://s3.us-east-1.amazonaws.com/artifact.tokbox.com/rel/otkit-ios-sdk-xcframework/vonage-ios-sdk-2.32.1.zip",
-                checksum: "72ce3a9c9380c4818eeec4858bbb11d76c34bdef05b5af6a361f3b0ff6d4233c"),
+                url: "https://s3.us-east-1.amazonaws.com/artifact.tokbox.com/rel/otkit-ios-sdk-xcframework/vonage-ios-sdk-2.33.0.zip",
+                checksum: "d51be11f7533fd92ae56179bc59a6cead975d483d078a0cc82f5aa2b3e25bdef"),
         .target(name: "VonageClientSDKVideo",
                 path: "Sources",
                 resources: [
