@@ -18,14 +18,14 @@ jobs:
           fetch-depth: 0
 
       - name: Generate commit list
-        id: diff
         run: |
           git log $FROM_TAG..$TO_TAG --pretty=format:"%s" > commits.txt
 
-          echo "commits<<EOF" >> $GITHUB_OUTPUT
-          cat commits.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
+          # avoid empty input edge case
+          if [ ! -s commits.txt ]; then
+            echo "No commits found" > commits.txt
+          fi
+          
       - name: Generate changelog with AI
         id: ai
         uses: actions/ai-inference@v1
