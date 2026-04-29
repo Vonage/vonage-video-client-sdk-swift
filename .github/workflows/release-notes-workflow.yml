@@ -3,6 +3,11 @@ name: Generate Changelog (PR test)
 on:
   pull_request:
     types: [opened, synchronize]
+    
+permissions:
+  contents: read
+  models: read
+  pull-requests: write
 
 jobs:
   changelog:
