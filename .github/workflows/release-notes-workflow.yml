@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      FROM_TAG: v1.2.0
-      TO_TAG: v1.3.0
+      FROM_TAG: 2.32.0
+      TO_TAG: 2.32.1
 
     steps:
       - uses: actions/checkout@v4
