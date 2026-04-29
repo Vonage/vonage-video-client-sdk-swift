@@ -1,18 +1,16 @@
-name: Generate Changelog
+name: Generate Changelog (PR test)
 
 on:
-  workflow_dispatch:
-    inputs:
-      from_tag:
-        description: "Start tag (older)"
-        required: true
-      to_tag:
-        description: "End tag (newer)"
-        required: true
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   changelog:
     runs-on: ubuntu-latest
+
+    env:
+      FROM_TAG: v1.2.0
+      TO_TAG: v1.3.0
 
     steps:
       - uses: actions/checkout@v4
@@ -22,8 +20,7 @@ jobs:
       - name: Generate commit list
         id: diff
         run: |
-          git log ${{ github.event.inputs.from_tag }}..${{ github.event.inputs.to_tag }} \
-            --pretty=format:"%s" > commits.txt
+          git log $FROM_TAG..$TO_TAG --pretty=format:"%s" > commits.txt
 
           echo "commits<<EOF" >> $GITHUB_OUTPUT
           cat commits.txt >> $GITHUB_OUTPUT
@@ -43,12 +40,19 @@ jobs:
             - Improvements
             - Breaking Changes
 
-            Ignore trivial commits like formatting or CI.
+            Ignore trivial commits (CI, formatting, typos).
 
             Commits:
             ${{ steps.diff.outputs.commits }}
 
-      - name: Save changelog
-        run: |
-          echo "${{ steps.ai.outputs.response }}" > CHANGELOG_GENERATED.md
-          cat CHANGELOG_GENERATED.md
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `## 🤖 Generated Changelog\n\n${{ steps.ai.outputs.response }}`;
+
+            github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body
+            });
