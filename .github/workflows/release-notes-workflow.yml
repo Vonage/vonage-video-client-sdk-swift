@@ -37,31 +37,29 @@ jobs:
       - name: Install Copilot CLI
         run: npm install -g @github/copilot
 
-      - name: Run Copilot CLI
+      - name: Generate changelog with AI
+        id: ai
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
         run: |
-          copilot -p "You are a release manager. Create a structured changelog with sections: Features, Bug Fixes,Improvements, Breaking Changes. Ignore trivial commits (CI, formatting, typos). Write the details to summary.md, Use these Commits: ${{ steps.diff.outputs.commits }}" --allow-tool='shell(git:*)' --allow-tool=write --no-ask-user
+          COMMITS=$(cat commits.txt)
+          
+          copilot -p "You are a release manager. Create a structured changelog with sections: Features, Bug Fixes, Improvements, Breaking Changes. Ignore trivial commits (CI, formatting, typos). Write the details to summary.md. Use these Commits: $COMMITS" --allow-tool='shell(git:*)' --allow-tool=write --no-ask-user
+
+          # Print the results to the console
+          echo "==== GENERATED CHANGELOG ===="
+          cat summary.md
+          echo "============================="
+
+          # Append to GitHub Step Summary
           cat summary.md >> "$GITHUB_STEP_SUMMARY"
           
-      - name: Generate changelog with AI
-        id: ai
-        uses: actions/ai-inference@v1
-        with:
-          model: gpt-4o
-          prompt: |
-            You are a release manager.
-
-            Create a structured changelog with sections:
-            - Features
-            - Bug Fixes
-            - Improvements
-            - Breaking Changes
-
-            Ignore trivial commits (CI, formatting, typos).
-
-            Commits:
-            ${{ steps.diff.outputs.commits }}
+          # Safely export multiline markdown to a step output
+          {
+            echo 'response<<EOF'
+            cat summary.md
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Comment on PR
         uses: actions/github-script@v7
