@@ -1,0 +1,54 @@
+name: Generate Changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_tag:
+        description: "Start tag (older)"
+        required: true
+      to_tag:
+        description: "End tag (newer)"
+        required: true
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate commit list
+        id: diff
+        run: |
+          git log ${{ github.event.inputs.from_tag }}..${{ github.event.inputs.to_tag }} \
+            --pretty=format:"%s" > commits.txt
+
+          echo "commits<<EOF" >> $GITHUB_OUTPUT
+          cat commits.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog with AI
+        id: ai
+        uses: github/ai-inference@v1
+        with:
+          model: gpt-4o
+          prompt: |
+            You are a release manager.
+
+            Create a structured changelog with sections:
+            - Features
+            - Bug Fixes
+            - Improvements
+            - Breaking Changes
+
+            Ignore trivial commits like formatting or CI.
+
+            Commits:
+            ${{ steps.diff.outputs.commits }}
+
+      - name: Save changelog
+        run: |
+          echo "${{ steps.ai.outputs.response }}" > CHANGELOG_GENERATED.md
+          cat CHANGELOG_GENERATED.md
