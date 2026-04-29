@@ -44,7 +44,10 @@ jobs:
         run: |
           COMMITS=$(cat commits.txt)
           
-          copilot -p "You are a release manager. Create a structured changelog with sections: Features, Bug Fixes, Improvements, Breaking Changes. Ignore trivial commits (CI, formatting, typos). Write the details to summary.md. Use these Commits: $COMMITS" --allow-tool='shell(git:*)' --allow-tool=write --no-ask-user
+          PROMPT_TEMPLATE="$(cat .github/prompts/release-notes-copilot.txt)"
+          PROMPT="${PROMPT_TEMPLATE//'{{COMMITS}}'/$COMMITS}"
+
+          copilot -p "$PROMPT" --allow-tool='shell(git:*)' --allow-tool=write --no-ask-user
 
           # Print the results to the console
           echo "==== GENERATED CHANGELOG ===="
