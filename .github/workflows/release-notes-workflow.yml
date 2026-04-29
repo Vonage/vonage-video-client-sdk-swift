@@ -28,7 +28,7 @@ jobs:
 
       - name: Generate changelog with AI
         id: ai
-        uses: github/ai-inference@v1
+        uses: actions/ai-inference@v1
         with:
           model: gpt-4o
           prompt: |
