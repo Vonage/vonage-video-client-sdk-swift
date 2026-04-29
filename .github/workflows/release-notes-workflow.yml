@@ -21,6 +21,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          
+      - name: Set up Node.js environment
+        uses: actions/setup-node@v4
 
       - name: Generate commit list
         run: |
@@ -30,6 +33,16 @@ jobs:
           if [ ! -s commits.txt ]; then
             echo "No commits found" > commits.txt
           fi
+          
+      - name: Install Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Run Copilot CLI
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: |
+          copilot -p "You are a release manager. Create a structured changelog with sections: Features, Bug Fixes,Improvements, Breaking Changes. Ignore trivial commits (CI, formatting, typos). Write the details to summary.md, Use these Commits: ${{ steps.diff.outputs.commits }}" --allow-tool='shell(git:*)' --allow-tool=write --no-ask-user
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
           
       - name: Generate changelog with AI
         id: ai
