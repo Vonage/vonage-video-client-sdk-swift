@@ -58,7 +58,8 @@ jobs:
           {
             echo 'response<<EOF'
             cat summary.md
-            echo EOF
+            echo ""
+            echo 'EOF'
           } >> "$GITHUB_OUTPUT"
 
       - name: Comment on PR
