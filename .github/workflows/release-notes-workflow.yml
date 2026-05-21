@@ -1,0 +1,78 @@
+name: Generate Changelog (PR test)
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    
+permissions:
+  contents: read
+  models: read
+  pull-requests: write
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+
+    env:
+      FROM_TAG: 2.32.0
+      TO_TAG: 2.32.1
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Node.js environment
+        uses: actions/setup-node@v4
+
+      - name: Generate commit list
+        run: |
+          git log $FROM_TAG..$TO_TAG --pretty=format:"%s" > commits.txt
+
+          # avoid empty input edge case
+          if [ ! -s commits.txt ]; then
+            echo "No commits found" > commits.txt
+          fi
+          
+      - name: Install Copilot CLI
+        run: npm install -g @github/copilot
+
+      - name: Generate changelog with AI
+        id: ai
+        env:
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
+        run: |
+          COMMITS=$(cat commits.txt)
+          
+          PROMPT_TEMPLATE="$(cat .github/prompts/release-notes-copilot.txt)"
+          PROMPT="${PROMPT_TEMPLATE//'{{COMMITS}}'/$COMMITS}"
+
+          copilot -p "$PROMPT" --allow-tool='shell(git:*)' --allow-tool=write --no-ask-user
+
+          # Print the results to the console
+          echo "==== GENERATED CHANGELOG ===="
+          cat summary.md
+          echo "============================="
+
+          # Append to GitHub Step Summary
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+          
+          # Safely export multiline markdown to a step output
+          {
+            echo 'response<<EOF'
+            cat summary.md
+            echo ""
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `## 🤖 Generated Changelog\n\n${{ steps.ai.outputs.response }}`;
+
+            github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body
+            });
