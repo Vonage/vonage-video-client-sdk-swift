@@ -8,9 +8,9 @@ For full documentation, installation instructions, system requirements, and guid
 
 Add the SDK to your project using Swift Package Manager:
 
-` ` `
+```
 https://github.com/vonage/vonage-video-client-sdk-swift.git
-` ` `
+```
 
 In Xcode, go to **File > Add Package Dependencies…**, paste the URL above, and select the **VonageClientSDKVideo** library.
 
