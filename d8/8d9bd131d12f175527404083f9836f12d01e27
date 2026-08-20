@@ -1,0 +1,19 @@
+Package.swift
+  s_31aea0b6ced743::t_877973f6a5a2ba 23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d88d9bd131d12f175527404083f9836f12d01e27",
+  "prompts": {},
+  "sessions": {
+    "s_31aea0b6ced743": {
+      "agent_id": {
+        "tool": "kiro",
+        "id": "sess_b38faeaa-255a-4036-af50-c293e2c6409a",
+        "model": "auto"
+      },
+      "human_author": "Raúl Albín <raul.albin@vonage.com>"
+    }
+  }
+}
