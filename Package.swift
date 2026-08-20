@@ -6,7 +6,7 @@ import PackageDescription
 
 let package = Package(
     name: "VonageClientSDKVideo",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -19,8 +19,8 @@ let package = Package(
     ],
     targets: [
         .binaryTarget(name: "OpenTok",
-                url: "https://s3.us-east-1.amazonaws.com/artifact.tokbox.com/rel/otkit-ios-sdk-xcframework/vonage-ios-sdk-2.34.1.zip",
-                checksum: "e4fd3192c31f8955d90e84d7b9d7b393132f080df1ae6e618fdc263a9f7678a3"),
+                url: "https://s3.us-east-1.amazonaws.com/artifact.tokbox.com/rel/otkit-ios-sdk-xcframework/vonage-ios-sdk-2.35.1.zip",
+                checksum: "2523f705c124aeee8903c711d998511a434e83320b29a3ea90c08828c6a003d"),
         .target(name: "VonageClientSDKVideo",
                 path: "Sources",
                 resources: [
